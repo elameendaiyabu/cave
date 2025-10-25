@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { EnhancedButton } from "@/components/ui/enhanced-btn";
 import { containerVariants, itemVariants } from "@/lib/animation-variants";
+import { useTranslations } from "next-intl";
 
 interface FormProps {
 	name: string;
@@ -28,6 +29,8 @@ export default function Form({
 	handleSubmit,
 	loading,
 }: FormProps) {
+	const t = useTranslations("HomePage");
+
 	return (
 		<motion.div
 			className="mt-6 flex w-full max-w-[24rem] flex-col gap-2"
@@ -38,7 +41,7 @@ export default function Form({
 			<motion.div variants={itemVariants}>
 				<Input
 					type="text"
-					placeholder="Your Name"
+					placeholder={t("name")}
 					value={name}
 					onChange={handleNameChange}
 				/>
@@ -46,7 +49,7 @@ export default function Form({
 			<motion.div variants={itemVariants}>
 				<Input
 					type="location"
-					placeholder="Your Location"
+					placeholder={t("location")}
 					value={location}
 					onChange={handleLocationChange}
 				/>
@@ -54,7 +57,7 @@ export default function Form({
 			<motion.div variants={itemVariants}>
 				<Input
 					type="email"
-					placeholder="Your Email Address"
+					placeholder={t("email")}
 					value={email}
 					onChange={handleEmailChange}
 				/>
@@ -68,14 +71,14 @@ export default function Form({
 					className="mt-2 w-full"
 					disabled={loading}
 				>
-					{loading ? "Loading..." : "Join Waitlist!"}
+					{loading ? "Loading..." : <div>{t("button")}</div>}
 				</EnhancedButton>
 			</motion.div>
 			<motion.div
 				variants={itemVariants}
 				className="mt-4 flex w-full items-center justify-center gap-1 text-muted-foreground"
 			>
-				<p>For any queries, reach out at </p>
+				<p>{t("queries")}</p>
 				<Link
 					href="https://wa.me/2349017040346"
 					rel="noopener noreferrer"

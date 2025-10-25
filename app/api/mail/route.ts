@@ -49,7 +49,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
 	// const { data, error } = { data: true, error: null }
 
 	if (error) {
-		console.log(error);
 		return NextResponse.json(error);
 	}
 

@@ -2,8 +2,10 @@ import { motion } from "framer-motion";
 import TextBlur from "@/components/ui/text-blur";
 import AnimatedShinyText from "@/components/ui/shimmer-text";
 import { containerVariants, itemVariants } from "@/lib/animation-variants";
+import { useTranslations } from "next-intl";
 
 export default function CTA() {
+	const t = useTranslations("HomePage");
 	return (
 		<motion.div
 			className="flex w-full max-w-2xl flex-col gap-2"
@@ -31,14 +33,14 @@ export default function CTA() {
 			<motion.div variants={itemVariants}>
 				<TextBlur
 					className="text-center text-3xl font-medium tracking-tighter sm:text-5xl"
-					text="The AI-Powered ERP That Rewards Smart Business."
+					text={t("title")}
 				/>
 			</motion.div>
 
 			<motion.div variants={itemVariants}>
 				<TextBlur
 					className="mx-auto max-w-[27rem] pt-1.5 text-center text-base text-zinc-300 sm:text-lg"
-					text="Join the waitlist to experience the first AI-powered ERP that helps you run your business smarter while building your credit score from real operational data."
+					text={t("description")}
 					duration={0.8}
 				/>
 			</motion.div>

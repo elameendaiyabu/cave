@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { RiOrganizationChart } from "react-icons/ri";
 
 import { containerVariants, itemVariants } from "@/lib/animation-variants";
+import LocaleSwitcher from "./locale-switcher";
 
 export default function Header() {
 	return (
@@ -22,6 +23,8 @@ export default function Header() {
 					<span className="hidden md:inline">CAVE ERP + Credibility</span>
 				</Button>
 			</motion.div>
+
+			<LocaleSwitcher />
 		</motion.div>
 	);
 }

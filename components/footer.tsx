@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { containerVariants, itemVariants } from "@/lib/animation-variants";
+import { useTranslations } from "next-intl";
 
 export default function Footer() {
+	const t = useTranslations("HomePage");
+
 	return (
 		<motion.div
 			variants={containerVariants}
@@ -11,7 +14,7 @@ export default function Footer() {
 			className="mt-auto flex w-full items-center justify-center gap-1 border-t bg-background p-6 text-muted-foreground md:justify-start"
 		>
 			<motion.div variants={itemVariants}>
-				Brought to you by{" "}
+				{t("brought")}
 				<Link
 					href="https://lightgatesolutions.com"
 					rel="noopener noreferrer"

@@ -1,8 +1,11 @@
-import "./globals.css";
+import "../globals.css";
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { routing } from "@/i18n/routing";
+import { notFound } from "next/navigation";
 
 const FigtreeFont = Figtree({ subsets: ["latin"] });
 
@@ -12,11 +15,19 @@ export const metadata: Metadata = {
 		"A  waitlist for businesses to sign up for an ERP with loan credibility rankings.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
+	params,
 }: Readonly<{
 	children: React.ReactNode;
+
+	params: Promise<{ locale: string }>;
 }>) {
+	const { locale } = await params;
+	if (!hasLocale(routing.locales, locale)) {
+		notFound();
+	}
+
 	return (
 		<html lang="en" className="dark" suppressHydrationWarning>
 			<meta property="og:image" content="/opengraph-image.png" />
@@ -30,7 +41,7 @@ export default function RootLayout({
 			<meta name="twitter:image:width" content="1280" />
 			<meta name="twitter:image:height" content="832" />
 			<body className={FigtreeFont.className}>
-				{children}
+				<NextIntlClientProvider>{children}</NextIntlClientProvider>
 				<Toaster richColors position="top-center" />
 				<Analytics />
 			</body>
