@@ -39,7 +39,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 	const { email, firstname } = await request.json();
 
 	const { data, error } = await resend.emails.send({
-		from: "Cave<hello@raveplugng.com>",
+		from: "Cave<waitlist@cave.ng>",
 		to: [email],
 		subject: "Thank you for wailisting the Cave ERP System",
 		reply_to: "contact@lightgatesolutions.com",

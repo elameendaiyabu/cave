@@ -2,20 +2,57 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiChevronDown } from "react-icons/fi";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 
 export default function LocaleSwitcher() {
 	const [open, setOpen] = useState(false);
 
+	const languages = [
+		"Language",
+		"Canza harshenka",
+		"Yi èdè rẹ padà",
+		"Gbanwe asụsụ gị",
+	];
+	const [currentLang, setCurrentLang] = useState(0);
+	const [direction, setDirection] = useState(1);
+	const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+	useEffect(() => {
+		if (!open) {
+			intervalRef.current = setInterval(() => {
+				setCurrentLang((prev) => {
+					if (prev === languages.length - 1) setDirection(-1);
+					else if (prev === 0) setDirection(1);
+					return prev + direction;
+				});
+			}, 3000);
+		}
+		return () => {
+			if (intervalRef.current) clearInterval(intervalRef.current);
+		};
+	}, [open, direction, languages.length]);
+
 	return (
-		<div className="">
+		<div>
 			<motion.div animate={open ? "open" : "closed"} className="relative">
 				<button
 					onClick={() => setOpen((pv) => !pv)}
-					className="flex items-center gap-2 px-3 py-2 rounded-md text-yellow-200 transition-all duration-150 ease-linear md:hover:text-yellow-200 "
+					className="flex items-center gap-2 px-3 py-2 rounded-md text-yellow-200 transition-all duration-150 ease-linear md:hover:text-yellow-200"
 				>
-					<span className="font-medium text-sm">Languages</span>
+					<AnimatePresence mode="wait">
+						<motion.span
+							key={languages[currentLang]}
+							initial={{ opacity: 0, y: 10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: -10 }}
+							transition={{ duration: 0.3 }}
+							className="font-medium text-sm"
+						>
+							{languages[currentLang]}
+						</motion.span>
+					</AnimatePresence>
+
 					<motion.span variants={iconVariants}>
 						<FiChevronDown />
 					</motion.span>
@@ -36,14 +73,15 @@ export default function LocaleSwitcher() {
 		</div>
 	);
 }
+
 const Option = ({
 	text,
 	setOpen,
 	locale,
 }: {
-	text: any;
-	setOpen: any;
-	locale: any;
+	text: string;
+	setOpen: (val: boolean) => void;
+	locale: string;
 }) => {
 	const pathname = usePathname();
 	return (
@@ -62,17 +100,11 @@ const Option = ({
 const wrapperVariants = {
 	open: {
 		scaleY: 1,
-		transition: {
-			when: "beforeChildren",
-			staggerChildren: 0.1,
-		},
+		transition: { when: "beforeChildren", staggerChildren: 0.1 },
 	},
 	closed: {
 		scaleY: 0,
-		transition: {
-			when: "afterChildren",
-			staggerChildren: 0.1,
-		},
+		transition: { when: "afterChildren", staggerChildren: 0.1 },
 	},
 };
 
@@ -82,18 +114,6 @@ const iconVariants = {
 };
 
 const itemVariants = {
-	open: {
-		opacity: 1,
-		y: 0,
-		transition: {
-			when: "beforeChildren",
-		},
-	},
-	closed: {
-		opacity: 0,
-		y: -15,
-		transition: {
-			when: "afterChildren",
-		},
-	},
+	open: { opacity: 1, y: 0, transition: { when: "beforeChildren" } },
+	closed: { opacity: 0, y: -15, transition: { when: "afterChildren" } },
 };
