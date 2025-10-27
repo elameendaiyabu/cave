@@ -90,7 +90,10 @@ const Option = ({
 			onClick={() => setOpen(false)}
 			className="flex items-center gap-2 w-full p-2 text-xs font-medium whitespace-nowrap rounded-md hover:bg-yellow-100 text-slate-700 hover:text-indigo-500 transition-colors cursor-pointer"
 		>
-			<Link href={`/${locale}${pathname.replace(/^\/[a-z]{2}/, "")}`}>
+			<Link
+				className="w-full"
+				href={`/${locale}${pathname.replace(/^\/[a-z]{2}/, "")}`}
+			>
 				{text}
 			</Link>
 		</motion.li>
